@@ -119,7 +119,7 @@ public class Game {
   }
 
   public Person getWinner() {
-    return persons.stream().filter(e -> e.getPoints() >= 11).min(Comparator.comparing(Person::getPoints)).orElse(null);
+    return persons.stream().filter(e -> e.getPoints() >= 11).max(Comparator.comparing(Person::getPoints)).orElse(null);
   }
 
   public boolean isRunning() {
