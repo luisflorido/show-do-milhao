@@ -3,32 +3,32 @@ package me.luis;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Random;
 
 public class Server implements Runnable {
 
   private ServerSocket socket;
   private int port;
-  private static final int DEFAULT_PORT = 8080;
   private boolean running = false;
+  private static Server server;
 
   public Server() {
-    this.port = DEFAULT_PORT;
-  }
-
-  public Server(int port) {
-    this.port = port;
+    server = this;
+    this.port = getRandomPort();
+    try {
+      socket = new ServerSocket(this.port);
+      System.out.println("Abrindo servidor na porta " + this.port);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public void run() {
-    new Game();
+    new Game().run(this.port);
     running = true;
-    System.out.println("Abrindo servidor na porta " + this.port);
     try {
-      socket = new ServerSocket(port);
-      System.out.println("Servidor aberto");
       while (running) {
         Socket client = this.socket.accept();
 //        System.out.println("Mensagem recebida de: " + client.getInetAddress().getHostAddress() + ":" + client.getPort());
@@ -48,9 +48,9 @@ public class Server implements Runnable {
     }
   }
 
-  public static void send(String ip, Integer port, Object obj) {
+  public static void send(Object obj) {
     try {
-      Socket socket = new Socket(ip, port);
+      Socket socket  = new Socket("127.0.0.1", 8080);
       ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
       oos.writeObject(obj);
       oos.close();
@@ -60,11 +60,13 @@ public class Server implements Runnable {
     }
   }
 
-  public int getPort() {
-    return port;
+  private int getRandomPort() {
+    Random randomGenerator = new Random();
+    int randomInt = randomGenerator.nextInt(65535) + 1;
+    return randomInt;
   }
 
-  public void setPort(int port) {
-    this.port = port;
+  public static Server getServer() {
+    return server;
   }
 }

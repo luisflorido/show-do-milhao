@@ -1,34 +1,41 @@
 package me.luis;
 
-import java.util.List;
-
 public class Person {
 
-	private String ip;
-	private String name;
+  private String ip;
+  private Integer port;
+  private String name, token;
+  private Integer points;
 
-	public Person(String ip, String name) {
-		this.ip = ip;
-		this.name = name;
-	}
+  public Person(String ip, Integer port, String token, String name) {
+    this.ip = ip;
+    this.port = port;
+    points = 0;
+    this.name = name;
+    this.token = token;
+  }
 
-	public String getIp() {
-		return ip;
-	}
+  public String getIp() {
+    return ip;
+  }
 
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
+  public Integer getPort() {
+    return port;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public String getToken() {
+    return token;
+  }
 
-	public static Person findPerson(List<Person> peoples, String ip) {
-		return peoples.stream().filter(e -> e.ip.equals(ip)).findFirst().orElse(null);
-	}
+  public void increasePoints(Integer point) {
+    this.points += point;
+  }
+
+  public Integer getPoints() {
+    return this.points;
+  }
 }
