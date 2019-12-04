@@ -46,4 +46,17 @@ public class Game {
 			return null;
 		}
 	}
+	
+	private String clientAnswer(String answer,String question){
+		try {
+			loadQuestions();
+			if() {
+				
+			}
+			
+		} catch (Exception e) {
+			System.err.format("Ocorreu um erro ao carregar questões: " + e.getMessage());
+			return null;
+		}
+	}
 }
